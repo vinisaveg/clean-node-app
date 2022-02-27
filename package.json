@@ -6,6 +6,7 @@
   "author": "vinisaveg",
   "license": "MIT",
   "scripts": {
+    "build": "rm -r build & tsc",
     "test": "jest --no-cache"
   },
   "devDependencies": {
