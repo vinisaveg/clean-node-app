@@ -1,0 +1,8 @@
+{
+  "name": "next-unicorn-project-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vinisaveg/next-unicorn-project-server.git",
+  "author": "vinisaveg",
+  "license": "MIT"
+}
