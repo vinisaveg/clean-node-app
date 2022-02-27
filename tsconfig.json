@@ -1,0 +1,38 @@
+
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "lib": ["es2018"],
+    "sourceMap": true,
+    "outDir": "build",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "resolveJsonModule": true,
+    "alwaysStrict": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "rootDirs": [
+      "src",
+    ],
+  },
+  "include": [
+    "./src/**/*.ts",
+  ],
+  "exclude": [
+    "./node_modules/*",
+    "build"
+  ]
+}
