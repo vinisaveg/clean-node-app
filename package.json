@@ -5,6 +5,9 @@
   "repository": "https://github.com/vinisaveg/next-unicorn-project-server.git",
   "author": "vinisaveg",
   "license": "MIT",
+  "scripts": {
+    "test": "jest --no-cache"
+  },
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
