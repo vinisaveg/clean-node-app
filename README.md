@@ -17,3 +17,9 @@ Install dependencies:
 Build the application:
 
     yarn build
+
+## Testing :rotating_light:
+
+Running the tests:
+
+    yarn test
