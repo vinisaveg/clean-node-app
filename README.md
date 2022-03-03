@@ -18,6 +18,10 @@ Build the application:
 
     yarn build
 
+Run build application:
+
+    yarn start
+
 ## Testing :rotating_light:
 
 Running the tests:
