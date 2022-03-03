@@ -8,7 +8,9 @@
   "scripts": {
     "build": "rm -r build & tsc",
     "start": "node build/index.js",
-    "test": "jest --no-cache"
+    "test": "jest --no-cache",
+    "lint:check": "eslint ./src --ext .ts",
+    "lint:fix": "eslint ./src --ext .ts --fix"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
