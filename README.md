@@ -11,3 +11,9 @@ Clone this repo:
 Install dependencies:
 
     yarn install
+
+## Running :runner:
+
+Build the application:
+
+    yarn build
