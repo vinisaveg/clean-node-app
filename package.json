@@ -10,7 +10,9 @@
     "start": "node build/index.js",
     "test": "jest --no-cache",
     "lint:check": "eslint ./src --ext .ts",
-    "lint:fix": "eslint ./src --ext .ts --fix"
+    "lint:fix": "eslint ./src --ext .ts --fix",
+    "prettier:check": "prettier --check src/**/*.ts ",
+    "prettier:fix": "prettier --write src/**/*.ts"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
