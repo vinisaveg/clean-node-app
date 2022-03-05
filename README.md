@@ -14,6 +14,10 @@ Install dependencies:
 
 ## Running :runner:
 
+Development mode:
+
+    yarn dev
+
 Build the application:
 
     yarn build
