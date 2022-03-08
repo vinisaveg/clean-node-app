@@ -1,7 +1,7 @@
 import { User } from "../entities/user";
 
 export interface SignUp {
-  signup: (data: SignUpParams) => Promise<SignUpResult>;
+  execute: (data: SignUpParams) => Promise<SignUpResult>;
 }
 
 export type SignUpParams = Omit<
