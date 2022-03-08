@@ -1,4 +1,4 @@
-import { User } from "../entities/user";
+import { User } from "@/domain/entities/user";
 
 export interface SignUp {
   execute: (data: SignUpParams) => Promise<SignUpResult>;
