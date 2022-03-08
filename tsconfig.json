@@ -10,6 +10,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
     "noImplicitThis": true,
     "resolveJsonModule": true,
     "alwaysStrict": true,
