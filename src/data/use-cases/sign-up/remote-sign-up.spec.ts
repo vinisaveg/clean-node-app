@@ -58,4 +58,22 @@ describe("Remote Sign Up use-case", () => {
 
     expect(signUpTry.result).toBe(false);
   });
+
+  it("Should return true if CheckEmailRepository returns false", async () => {
+    const checkEmailRepositorySpy = new CheckEmailRepositorySpy();
+    const addUserRepositorySpy = new AddUserRepositorySpy();
+    const sut = new RemoteSignUp(checkEmailRepositorySpy, addUserRepositorySpy);
+
+    const signUpData = {
+      name: "name",
+      email: "name@email.com",
+      password: "1234567890",
+    };
+
+    checkEmailRepositorySpy.result = false;
+
+    const signUpTry = await sut.execute(signUpData);
+
+    expect(signUpTry.result).toBe(true);
+  });
 });
