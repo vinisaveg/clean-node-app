@@ -1,7 +1,7 @@
-import { SignUpParams } from "@/domain/use-cases/sign-up";
 import { RemoteSignUp } from "./remote-sign-up";
 import { AddUserRepositorySpy } from "./test/add-user-repository-spy";
 import { CheckEmailRepositorySpy } from "./test/check-email-repository-spy";
+import { mockSignUpParams } from "./test/mocks/mock-sign-up";
 
 type SutType = {
   checkEmailRepositorySpy: CheckEmailRepositorySpy;
@@ -18,14 +18,6 @@ const makeSut = (): SutType => {
     checkEmailRepositorySpy,
     addUserRepositorySpy,
     sut,
-  };
-};
-
-const mockSignUpParams = (): SignUpParams => {
-  return {
-    name: "name",
-    email: "name@email.com",
-    password: "1234567890",
   };
 };
 
