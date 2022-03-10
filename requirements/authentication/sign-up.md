@@ -49,7 +49,7 @@
 
 ### Exception - Given User E-mail is Taken
 
-2. The system returns an Error HTTP Response 403 if the given user e-mail is taken.
+2. The system returns an Error HTTP Response 401 if the given user e-mail is taken.
 
 ### Exception - Failure on Hashing User password
 
