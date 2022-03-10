@@ -76,4 +76,24 @@ describe("Remote Sign Up use-case", () => {
 
     expect(signUpTry.result).toBe(true);
   });
+
+  it("Should throw error if CheckEmailRepository throws", async () => {
+    const checkEmailRepositorySpy = new CheckEmailRepositorySpy();
+    const addUserRepositorySpy = new AddUserRepositorySpy();
+    const sut = new RemoteSignUp(checkEmailRepositorySpy, addUserRepositorySpy);
+
+    jest.spyOn(checkEmailRepositorySpy, "check").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const signUpData = {
+      name: "name",
+      email: "name@email.com",
+      password: "1234567890",
+    };
+
+    const promise = sut.execute(signUpData);
+
+    await expect(promise).rejects.toThrow();
+  });
 });
