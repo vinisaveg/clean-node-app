@@ -1,21 +1,29 @@
 import { RemoteSignUp } from "./remote-sign-up";
 import { AddUserRepositorySpy } from "./test/add-user-repository-spy";
 import { CheckEmailRepositorySpy } from "./test/check-email-repository-spy";
+import { HasherSpy } from "./test/hasher-spy";
 import { mockSignUpParams } from "./test/mocks/mock-sign-up";
 
 type SutType = {
   checkEmailRepositorySpy: CheckEmailRepositorySpy;
+  hasherSpy: HasherSpy;
   addUserRepositorySpy: AddUserRepositorySpy;
   sut: RemoteSignUp;
 };
 
 const makeSut = (): SutType => {
   const checkEmailRepositorySpy = new CheckEmailRepositorySpy();
+  const hasherSpy = new HasherSpy();
   const addUserRepositorySpy = new AddUserRepositorySpy();
-  const sut = new RemoteSignUp(checkEmailRepositorySpy, addUserRepositorySpy);
+  const sut = new RemoteSignUp(
+    checkEmailRepositorySpy,
+    hasherSpy,
+    addUserRepositorySpy
+  );
 
   return {
     checkEmailRepositorySpy,
+    hasherSpy,
     addUserRepositorySpy,
     sut,
   };
@@ -86,5 +94,15 @@ describe("Remote Sign Up use-case", () => {
     const promise = sut.execute(signUpParams);
 
     await expect(promise).rejects.toThrow();
+  });
+
+  it("Should call Hasher with correct value", async () => {
+    const { sut, hasherSpy } = makeSut();
+
+    const signUpParams = mockSignUpParams();
+
+    await sut.execute(signUpParams);
+
+    expect(hasherSpy.text).toBe(signUpParams.password);
   });
 });
