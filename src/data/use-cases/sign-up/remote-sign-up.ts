@@ -9,7 +9,7 @@ export class RemoteSignUp implements SignUp {
   ) {}
 
   async execute(data: SignUpParams): Promise<SignUpResult> {
-    const isEmailTaken = await this.checkEmailRepository.check(data.email);
+    const isEmailTaken = await this.checkEmailRepository.execute(data.email);
 
     if (isEmailTaken) {
       return {

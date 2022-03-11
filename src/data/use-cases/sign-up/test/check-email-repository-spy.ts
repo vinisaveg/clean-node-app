@@ -4,7 +4,7 @@ export class CheckEmailRepositorySpy implements CheckEmailRepository {
   email: string;
   result: boolean;
 
-  check(email: string): Promise<boolean> {
+  execute(email: string): Promise<boolean> {
     this.email = email;
     return Promise.resolve(this.result);
   }

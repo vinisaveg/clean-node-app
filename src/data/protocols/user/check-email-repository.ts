@@ -1,3 +1,3 @@
 export interface CheckEmailRepository {
-  check: (email: string) => Promise<boolean>;
+  execute: (email: string) => Promise<boolean>;
 }

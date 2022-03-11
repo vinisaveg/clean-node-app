@@ -75,9 +75,11 @@ describe("Remote Sign Up use-case", () => {
   it("Should throw error if CheckEmailRepository throws", async () => {
     const { checkEmailRepositorySpy, sut } = makeSut();
 
-    jest.spyOn(checkEmailRepositorySpy, "check").mockImplementationOnce(() => {
-      throw new Error();
-    });
+    jest
+      .spyOn(checkEmailRepositorySpy, "execute")
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
 
     const signUpParams = mockSignUpParams();
 
