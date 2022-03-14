@@ -30,20 +30,6 @@ const makeSut = (): SutType => {
 };
 
 describe("Remote Sign Up use-case", () => {
-  it("Should execute with correct values", async () => {
-    const { checkEmailRepositorySpy, addUserRepositorySpy, sut } = makeSut();
-
-    const signUpParams = mockSignUpParams();
-
-    checkEmailRepositorySpy.result = false;
-
-    await sut.execute(signUpParams);
-
-    expect(addUserRepositorySpy.addUserParams).toEqual({
-      ...signUpParams,
-    });
-  });
-
   it("Should call checkEmailRepository with correct e-mail value", async () => {
     const { checkEmailRepositorySpy, sut } = makeSut();
 
@@ -118,5 +104,19 @@ describe("Remote Sign Up use-case", () => {
     const promise = sut.execute(signUpParams);
 
     expect(promise).rejects.toThrow();
+  });
+
+  it("Should call AddUserRepository with correct values", async () => {
+    const { checkEmailRepositorySpy, addUserRepositorySpy, sut } = makeSut();
+
+    const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
+
+    await sut.execute(signUpParams);
+
+    expect(addUserRepositorySpy.addUserParams).toEqual({
+      ...signUpParams,
+    });
   });
 });
