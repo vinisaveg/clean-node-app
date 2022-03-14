@@ -14,9 +14,13 @@ export class RemoteSignUp implements SignUp {
     const isEmailTaken = await this.checkEmailRepository.execute(data.email);
 
     if (!isEmailTaken) {
-      await this.hasher.hash(data.password);
+      const hashedPassword = await this.hasher.hash(data.password);
 
-      return this.addUserRepository.execute(data);
+      return this.addUserRepository.execute({
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+      });
     }
 
     return {
