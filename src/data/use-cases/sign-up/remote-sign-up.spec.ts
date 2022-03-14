@@ -119,4 +119,18 @@ describe("Remote Sign Up use-case", () => {
       ...signUpParams,
     });
   });
+
+  it("Should throw if AddUserRepository throws", async () => {
+    const { sut, addUserRepositorySpy } = makeSut();
+
+    jest.spyOn(addUserRepositorySpy, "execute").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const signUpParams = mockSignUpParams();
+
+    const promise = sut.execute(signUpParams);
+
+    expect(promise).rejects.toThrow();
+  });
 });
