@@ -83,9 +83,11 @@ describe("Remote Sign Up use-case", () => {
   });
 
   it("Should call Hasher with correct value", async () => {
-    const { sut, hasherSpy } = makeSut();
+    const { sut, hasherSpy, checkEmailRepositorySpy } = makeSut();
 
     const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
 
     await sut.execute(signUpParams);
 
@@ -93,13 +95,15 @@ describe("Remote Sign Up use-case", () => {
   });
 
   it("Should throw if Hasher throws", async () => {
-    const { sut, hasherSpy } = makeSut();
+    const { sut, hasherSpy, checkEmailRepositorySpy } = makeSut();
 
     jest.spyOn(hasherSpy, "hash").mockImplementationOnce(() => {
       throw new Error();
     });
 
     const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
 
     const promise = sut.execute(signUpParams);
 
@@ -121,13 +125,15 @@ describe("Remote Sign Up use-case", () => {
   });
 
   it("Should throw if AddUserRepository throws", async () => {
-    const { sut, addUserRepositorySpy } = makeSut();
+    const { sut, addUserRepositorySpy, checkEmailRepositorySpy } = makeSut();
 
     jest.spyOn(addUserRepositorySpy, "execute").mockImplementationOnce(() => {
       throw new Error();
     });
 
     const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
 
     const promise = sut.execute(signUpParams);
 
