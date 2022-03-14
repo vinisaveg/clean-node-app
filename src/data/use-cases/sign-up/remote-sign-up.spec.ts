@@ -105,4 +105,18 @@ describe("Remote Sign Up use-case", () => {
 
     expect(hasherSpy.text).toBe(signUpParams.password);
   });
+
+  it("Should throw if Hasher throws", async () => {
+    const { sut, hasherSpy } = makeSut();
+
+    jest.spyOn(hasherSpy, "hash").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const signUpParams = mockSignUpParams();
+
+    const promise = sut.execute(signUpParams);
+
+    expect(promise).rejects.toThrow();
+  });
 });
