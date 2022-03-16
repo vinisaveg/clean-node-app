@@ -134,7 +134,7 @@ describe("Remote Sign Up use-case", () => {
     await sut.execute(signUpParams);
 
     expect(addUserRepositorySpy.resultParams).toEqual({
-      id: 1,
+      id: "id",
       name: "name",
     });
   });
