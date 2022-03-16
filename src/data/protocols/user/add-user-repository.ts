@@ -1,4 +1,4 @@
-import { SignUpParams, SignUpResult } from "@/domain/use-cases/sign-up";
+import { SignUpParams } from "@/domain/use-cases/sign-up";
 
 export interface AddUserRepository {
   execute: (data: AddUserRepositoryParams) => Promise<AddUserRepositoryResult>;
@@ -7,6 +7,6 @@ export interface AddUserRepository {
 export type AddUserRepositoryParams = SignUpParams;
 
 export type AddUserRepositoryResult = {
-  id: number;
+  id: string;
   name: string;
 };
