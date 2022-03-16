@@ -172,4 +172,20 @@ describe("Remote Sign Up use-case", () => {
 
     expect(encrypterSpy.text).toBe(addUserRepositorySpy.resultParams.id);
   });
+
+  it("Should throw if Encrypter throws", async () => {
+    const { sut, checkEmailRepositorySpy, encrypterSpy } = makeSut();
+
+    jest.spyOn(encrypterSpy, "encrypt").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
+
+    const promise = sut.execute(signUpParams);
+
+    expect(promise).rejects.toThrow();
+  });
 });
