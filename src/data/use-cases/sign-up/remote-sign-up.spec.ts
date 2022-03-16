@@ -1,6 +1,7 @@
 import { RemoteSignUp } from "./remote-sign-up";
 import { AddUserRepositorySpy } from "./test/add-user-repository-spy";
 import { CheckEmailRepositorySpy } from "./test/check-email-repository-spy";
+import { EncrypterSpy } from "./test/encrypter-spy";
 import { HasherSpy } from "./test/hasher-spy";
 import { mockSignUpParams } from "./test/mocks/mock-sign-up";
 
@@ -8,6 +9,7 @@ type SutType = {
   checkEmailRepositorySpy: CheckEmailRepositorySpy;
   hasherSpy: HasherSpy;
   addUserRepositorySpy: AddUserRepositorySpy;
+  encrypterSpy: EncrypterSpy;
   sut: RemoteSignUp;
 };
 
@@ -15,16 +17,19 @@ const makeSut = (): SutType => {
   const checkEmailRepositorySpy = new CheckEmailRepositorySpy();
   const hasherSpy = new HasherSpy();
   const addUserRepositorySpy = new AddUserRepositorySpy();
+  const encrypterSpy = new EncrypterSpy();
   const sut = new RemoteSignUp(
     checkEmailRepositorySpy,
     hasherSpy,
-    addUserRepositorySpy
+    addUserRepositorySpy,
+    encrypterSpy
   );
 
   return {
     checkEmailRepositorySpy,
     hasherSpy,
     addUserRepositorySpy,
+    encrypterSpy,
     sut,
   };
 };
@@ -153,5 +158,18 @@ describe("Remote Sign Up use-case", () => {
     const promise = sut.execute(signUpParams);
 
     expect(promise).rejects.toThrow();
+  });
+
+  it("Should call Encrypter with correct value", async () => {
+    const { sut, checkEmailRepositorySpy, addUserRepositorySpy, encrypterSpy } =
+      makeSut();
+
+    const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
+
+    await sut.execute(signUpParams);
+
+    expect(encrypterSpy.text).toBe(addUserRepositorySpy.resultParams.id);
   });
 });

@@ -11,7 +11,7 @@ export class AddUserRepositorySpy implements AddUserRepository {
   execute(data: AddUserRepositoryParams): Promise<AddUserRepositoryResult> {
     this.addUserParams = data;
     this.resultParams = {
-      id: 1,
+      id: "id",
       name: data.name,
     };
     return Promise.resolve(this.resultParams);
