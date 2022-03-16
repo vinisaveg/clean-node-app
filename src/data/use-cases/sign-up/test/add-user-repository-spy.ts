@@ -6,9 +6,14 @@ import {
 
 export class AddUserRepositorySpy implements AddUserRepository {
   addUserParams: AddUserRepositoryParams;
+  resultParams: AddUserRepositoryResult;
 
   execute(data: AddUserRepositoryParams): Promise<AddUserRepositoryResult> {
     this.addUserParams = data;
-    return Promise.resolve({ result: true, name: data.name });
+    this.resultParams = {
+      id: 1,
+      name: data.name,
+    };
+    return Promise.resolve(this.resultParams);
   }
 }

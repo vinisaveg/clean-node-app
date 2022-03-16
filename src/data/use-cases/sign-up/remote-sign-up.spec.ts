@@ -124,6 +124,21 @@ describe("Remote Sign Up use-case", () => {
     });
   });
 
+  it("Should return correct values on AddUserRepository result", async () => {
+    const { checkEmailRepositorySpy, addUserRepositorySpy, sut } = makeSut();
+
+    const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
+
+    await sut.execute(signUpParams);
+
+    expect(addUserRepositorySpy.resultParams).toEqual({
+      id: 1,
+      name: "name",
+    });
+  });
+
   it("Should throw if AddUserRepository throws", async () => {
     const { sut, addUserRepositorySpy, checkEmailRepositorySpy } = makeSut();
 
