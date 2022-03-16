@@ -188,4 +188,20 @@ describe("Remote Sign Up use-case", () => {
 
     expect(promise).rejects.toThrow();
   });
+
+  it("Should return correct data on SignUp execution", async () => {
+    const { sut, checkEmailRepositorySpy } = makeSut();
+
+    checkEmailRepositorySpy.result = false;
+
+    const signUpParams = mockSignUpParams();
+
+    const signUpResult = await sut.execute(signUpParams);
+
+    expect(signUpResult).toEqual({
+      result: true,
+      name: "name",
+      accessToken: "accessToken",
+    });
+  });
 });

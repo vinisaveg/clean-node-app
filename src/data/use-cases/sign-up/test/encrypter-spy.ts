@@ -6,6 +6,6 @@ export class EncrypterSpy implements Encrypter {
   encrypt(text: string): Promise<string> {
     this.text = text;
 
-    return Promise.resolve(text);
+    return Promise.resolve("accessToken");
   }
 }
