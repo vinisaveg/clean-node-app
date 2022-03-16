@@ -6,4 +6,7 @@ export interface AddUserRepository {
 
 export type AddUserRepositoryParams = SignUpParams;
 
-export type AddUserRepositoryResult = SignUpResult;
+export type AddUserRepositoryResult = {
+  id: number;
+  name: string;
+};
