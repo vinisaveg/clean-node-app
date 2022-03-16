@@ -50,11 +50,9 @@ describe("Remote Sign Up use-case", () => {
   it("Should return false if CheckEmailRepository returns true", async () => {
     const { checkEmailRepositorySpy, sut } = makeSut();
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = true;
 
-    const signUpTry = await sut.execute(signUpParams);
+    const signUpTry = await sut.execute(mockSignUpParams());
 
     expect(signUpTry.result).toBe(false);
   });
@@ -62,11 +60,9 @@ describe("Remote Sign Up use-case", () => {
   it("Should return true if CheckEmailRepository returns false", async () => {
     const { checkEmailRepositorySpy, sut } = makeSut();
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = false;
 
-    const signUpTry = await sut.execute(signUpParams);
+    const signUpTry = await sut.execute(mockSignUpParams());
 
     expect(signUpTry.result).toBe(true);
   });
@@ -80,9 +76,7 @@ describe("Remote Sign Up use-case", () => {
         throw new Error();
       });
 
-    const signUpParams = mockSignUpParams();
-
-    const promise = sut.execute(signUpParams);
+    const promise = sut.execute(mockSignUpParams());
 
     await expect(promise).rejects.toThrow();
   });
@@ -106,11 +100,9 @@ describe("Remote Sign Up use-case", () => {
       throw new Error();
     });
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = false;
 
-    const promise = sut.execute(signUpParams);
+    const promise = sut.execute(mockSignUpParams());
 
     expect(promise).rejects.toThrow();
   });
@@ -140,7 +132,7 @@ describe("Remote Sign Up use-case", () => {
 
     expect(addUserRepositorySpy.resultParams).toEqual({
       id: "id",
-      name: "name",
+      name: signUpParams.name,
     });
   });
 
@@ -151,11 +143,9 @@ describe("Remote Sign Up use-case", () => {
       throw new Error();
     });
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = false;
 
-    const promise = sut.execute(signUpParams);
+    const promise = sut.execute(mockSignUpParams());
 
     expect(promise).rejects.toThrow();
   });
@@ -164,11 +154,9 @@ describe("Remote Sign Up use-case", () => {
     const { sut, checkEmailRepositorySpy, addUserRepositorySpy, encrypterSpy } =
       makeSut();
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = false;
 
-    await sut.execute(signUpParams);
+    await sut.execute(mockSignUpParams());
 
     expect(encrypterSpy.text).toBe(addUserRepositorySpy.resultParams.id);
   });
@@ -180,11 +168,9 @@ describe("Remote Sign Up use-case", () => {
       throw new Error();
     });
 
-    const signUpParams = mockSignUpParams();
-
     checkEmailRepositorySpy.result = false;
 
-    const promise = sut.execute(signUpParams);
+    const promise = sut.execute(mockSignUpParams());
 
     expect(promise).rejects.toThrow();
   });
@@ -192,15 +178,15 @@ describe("Remote Sign Up use-case", () => {
   it("Should return correct data on SignUp execution", async () => {
     const { sut, checkEmailRepositorySpy } = makeSut();
 
-    checkEmailRepositorySpy.result = false;
-
     const signUpParams = mockSignUpParams();
+
+    checkEmailRepositorySpy.result = false;
 
     const signUpResult = await sut.execute(signUpParams);
 
     expect(signUpResult).toEqual({
       result: true,
-      name: "name",
+      name: signUpParams.name,
       accessToken: "accessToken",
     });
   });
