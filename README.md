@@ -12,6 +12,21 @@ Install dependencies:
 
     yarn install
 
+## Setup :wrench:
+
+Create a .env file with the following environment vars:
+
+    MONGO_INITDB_ROOT_USERNAME=
+    MONGO_INITDB_ROOT_PASSWORD=
+
+    ME_CONFIG_MONGODB_URL=mongodb://USERNAME:PASSWORD@mongodb:27017/
+    ME_CONFIG_MONGODB_ADMINUSERNAME=
+    ME_CONFIG_MONGODB_ADMINPASSWORD=
+
+Run the database containers:
+
+    yarn up
+
 ## Running :runner:
 
 Development mode:
