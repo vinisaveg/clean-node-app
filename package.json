@@ -10,6 +10,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "start": "node build/index.js",
     "test": "jest --no-cache",
+    "up": "docker-compose -f docker-compose.yaml up -d",
+    "down": "docker-compose -f docker-compose.yaml down",
     "lint:check": "eslint ./src --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix",
     "prettier:check": "prettier --check src/**/*.ts ",
