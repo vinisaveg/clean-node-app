@@ -1,6 +1,7 @@
 import { Collection } from "mongodb";
 import { MongoHelper } from "../../mongo-helper";
 import { MongoCheckEmailRepository } from "./mongo-check-email-repository";
+import faker from "@faker-js/faker";
 
 describe("MongoCheckEmailRepository implementation", () => {
   let usersCollection: Collection;
@@ -24,5 +25,15 @@ describe("MongoCheckEmailRepository implementation", () => {
     const isEmailTaken = await sut.execute(email);
 
     expect(isEmailTaken).toBe(true);
+  });
+
+  it("Should return false if e-mail is not taken", async () => {
+    const sut = new MongoCheckEmailRepository();
+
+    const email = faker.internet.email();
+
+    const isEmailTaken = await sut.execute(email);
+
+    expect(isEmailTaken).toBe(false);
   });
 });
