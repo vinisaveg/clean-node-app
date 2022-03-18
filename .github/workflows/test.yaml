@@ -31,7 +31,7 @@ jobs:
           mongodb-port: 27017
           mongodb-username: ${{ secrets.MONGODB_USERNAME }}
           mongodb-password: ${{ secrets.MONGODB_PASSWORD }}
-          mongodb-db: ${{ secrets.MONGODB_DATABASE }
+          mongodb-db: ${{ secrets.MONGODB_DATABASE }}
 
       - name: Create .env file
         run: |
