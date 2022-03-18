@@ -23,6 +23,9 @@ Create a .env file with the following environment vars:
     ME_CONFIG_MONGODB_ADMINUSERNAME=
     ME_CONFIG_MONGODB_ADMINPASSWORD=
 
+    MONGODB_URI=mongodb://USERNAME:PASSWORD@localhost:27017/DBNAME?authSource=admin
+    MONGODB_TEST_URI=mongodb://USERNAME:PASSWORD@localhost:27017/DBNAME?authSource=admin
+
 Run the database containers:
 
     yarn up
