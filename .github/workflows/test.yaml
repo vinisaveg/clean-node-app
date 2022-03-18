@@ -29,6 +29,14 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-port: 27017
+          mongodb-username: ${{ secrets.MONGODB_USERNAME }}
+          mongodb-password: ${{ secrets.MONGODB_PASSWORD }}
+          mongodb-db: ${{ secrets.MONGODB_DATABASE }
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
