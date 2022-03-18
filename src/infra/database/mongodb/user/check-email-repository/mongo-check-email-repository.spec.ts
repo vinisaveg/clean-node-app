@@ -1,15 +1,13 @@
-import { Collection, Db } from "mongodb";
+import { Collection } from "mongodb";
 import { MongoHelper } from "../../mongo-helper";
 import { MongoCheckEmailRepository } from "./mongo-check-email-repository";
 
 describe("MongoCheckEmailRepository implementation", () => {
-  let database: Db;
   let usersCollection: Collection;
 
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGODB_TEST_URI as string);
-    database = MongoHelper.client?.db() as Db;
-    usersCollection = database.collection("users") as Collection;
+    usersCollection = MongoHelper.getCollection("users");
     await usersCollection.insertOne({ name: "name", email: "name@email.com" });
   });
 

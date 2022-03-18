@@ -3,10 +3,9 @@ import { MongoHelper } from "@/infra/database/mongodb/mongo-helper";
 
 export class MongoCheckEmailRepository implements CheckEmailRepository {
   async execute(email: string): Promise<boolean> {
-    const database = MongoHelper.client?.db();
-    const usersCollection = database?.collection("users");
+    const usersCollection = MongoHelper.getCollection("users");
 
-    const result = await usersCollection?.findOne({ email });
+    const result = await usersCollection.findOne({ email });
 
     return Promise.resolve(!!result);
   }
