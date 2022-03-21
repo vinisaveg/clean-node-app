@@ -3,7 +3,7 @@ import { AddUserRepositorySpy } from "./test/add-user-repository-spy";
 import { CheckEmailRepositorySpy } from "./test/check-email-repository-spy";
 import { EncrypterSpy } from "./test/encrypter-spy";
 import { HasherSpy } from "./test/hasher-spy";
-import { mockSignUpParams } from "./test/mocks/mock-sign-up";
+import { mockSignUpParams } from "../../../../test/mocks/sign-up/mock-sign-up";
 
 type SutType = {
   checkEmailRepositorySpy: CheckEmailRepositorySpy;
