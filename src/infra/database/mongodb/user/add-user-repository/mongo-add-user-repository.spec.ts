@@ -1,6 +1,19 @@
 import { Collection } from "mongodb";
-import { MongoHelper } from "../../mongo-helper";
-import { MongoAddUserRepository } from "./mongo-add-user-repository";
+import { MongoHelper } from "@/infra/database/mongodb/mongo-helper";
+import { MongoAddUserRepository } from "@/infra/database/mongodb/user/add-user-repository/mongo-add-user-repository";
+import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
+
+type SutTypes = {
+  sut: MongoAddUserRepository;
+};
+
+const makeSut = (): SutTypes => {
+  const sut = new MongoAddUserRepository();
+
+  return {
+    sut,
+  };
+};
 
 describe("MongoAddUserRepository implementation", () => {
   let usersCollection: Collection;
@@ -16,13 +29,9 @@ describe("MongoAddUserRepository implementation", () => {
   });
 
   it("Should have correct result on execution", async () => {
-    const sut = new MongoAddUserRepository();
+    const { sut } = makeSut();
 
-    const addUserParams = {
-      name: "name",
-      email: "name@email.com",
-      password: "1234567890",
-    };
+    const addUserParams = mockSignUpParams();
 
     const result = await sut.execute(addUserParams);
 
