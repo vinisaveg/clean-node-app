@@ -1,4 +1,5 @@
 import { BcryptHasher } from "./bcrypt-hasher";
+import faker from "@faker-js/faker";
 
 jest.mock("bcrypt", () => ({
   async hash(): Promise<string> {
@@ -6,11 +7,24 @@ jest.mock("bcrypt", () => ({
   },
 }));
 
+type SutTypes = {
+  salt: number;
+  sut: BcryptHasher;
+};
+
+const makeSut = (salt = 10): SutTypes => {
+  const sut = new BcryptHasher(salt);
+
+  return {
+    salt,
+    sut,
+  };
+};
+
 describe("BcryptHasher implementation", () => {
   it("Should call hash with correct text value", async () => {
-    const salt = 10;
-    const text = "1234567890";
-    const sut = new BcryptHasher(salt);
+    const { sut } = makeSut();
+    const text = faker.random.alphaNumeric(10);
 
     const bcryptHasherSpy = jest.spyOn(sut, "hash");
 
@@ -20,9 +34,8 @@ describe("BcryptHasher implementation", () => {
   });
 
   it("Should return a valid hashed text", async () => {
-    const salt = 10;
-    const text = "1234567890";
-    const sut = new BcryptHasher(salt);
+    const { sut } = makeSut();
+    const text = faker.random.alphaNumeric(10);
 
     const hashedText = await sut.hash(text);
 
