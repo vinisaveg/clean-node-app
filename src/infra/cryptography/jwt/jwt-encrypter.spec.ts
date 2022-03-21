@@ -7,11 +7,22 @@ jest.mock("jsonwebtoken", () => ({
   },
 }));
 
+type SutTypes = {
+  sut: JwtEncrypter;
+};
+
+const makeSut = (secret = "secret", algorithm = "HS256"): SutTypes => {
+  const sut = new JwtEncrypter(secret, algorithm);
+
+  return {
+    sut,
+  };
+};
+
 describe("JwtEncrypter implementation", () => {
   it("Should call encrypt with correct value", async () => {
-    const sut = new JwtEncrypter("secret", "HS256");
-
-    const text = faker.random.alphaNumeric(24);
+    const { sut } = makeSut();
+    const text = faker.datatype.uuid();
 
     const jwtEncrypterSpy = jest.spyOn(sut, "encrypt");
 
@@ -21,9 +32,8 @@ describe("JwtEncrypter implementation", () => {
   });
 
   it("Should return a valid accessToken", async () => {
-    const sut = new JwtEncrypter("secret", "HS256");
-
-    const text = faker.random.alphaNumeric(24);
+    const { sut } = makeSut();
+    const text = faker.datatype.uuid();
 
     const result = await sut.encrypt(text);
 
