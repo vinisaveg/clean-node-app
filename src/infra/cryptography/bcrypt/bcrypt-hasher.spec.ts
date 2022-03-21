@@ -1,15 +1,15 @@
 import { BcryptHasher } from "./bcrypt-hasher";
 
 describe("BcryptHasher implementation", () => {
-  it("Should call hash with correct values", async () => {
+  it("Should call hash with correct text value", async () => {
     const salt = 10;
-    const password = "1234567890";
+    const text = "1234567890";
     const sut = new BcryptHasher(salt);
 
     const bcryptHasherSpy = jest.spyOn(sut, "hash");
 
-    await sut.hash(password);
+    await sut.hash(text);
 
-    expect(bcryptHasherSpy).toHaveBeenCalledWith(password);
+    expect(bcryptHasherSpy).toHaveBeenCalledWith(text);
   });
 });
