@@ -11,7 +11,10 @@ export class SignUpController
     const signUpResult = await this.remoteSignUp.execute(request);
 
     if (!signUpResult.result) {
-      throw new Error();
+      return {
+        statusCode: 403,
+        body: new Error("This e-mail is already taken."),
+      };
     }
 
     return { statusCode: 201, body: signUpResult };
