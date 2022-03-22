@@ -22,4 +22,22 @@ describe("Sign Up controller", () => {
       password: request.password,
     });
   });
+
+  it("Should return 201 with correct body if signed up correctly", async () => {
+    const remoteSignUpSpy = new RemoteSignUpSpy();
+    const sut = new SignUpController(remoteSignUpSpy);
+
+    const request = {
+      name: "name",
+      email: "name@email.com",
+      password: faker.internet.password(),
+    };
+
+    const httpResponse = await sut.handle(request);
+
+    expect(httpResponse.statusCode).toBe(201);
+    expect(httpResponse.body).toHaveProperty("result", true);
+    expect(httpResponse.body).toHaveProperty("name", request.name);
+    expect(httpResponse.body).toHaveProperty("accessToken");
+  });
 });
