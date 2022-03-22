@@ -2,7 +2,9 @@ import { SignUp, SignUpParams, SignUpResult } from "@/domain/use-cases/sign-up";
 import { Controller } from "@/presentation/protocols/controller";
 import { HttpResponse } from "@/presentation/protocols/http";
 
-export class SignUpController implements Controller<SignUpParams> {
+export class SignUpController
+  implements Controller<SignUpParams, SignUpResult>
+{
   constructor(private readonly remoteSignUp: SignUp) {}
 
   async handle(request: SignUpParams): Promise<HttpResponse<SignUpResult>> {
