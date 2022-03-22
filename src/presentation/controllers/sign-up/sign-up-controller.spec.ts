@@ -1,18 +1,27 @@
 import { SignUpController } from "./sign-up-controller";
 import { RemoteSignUpSpy } from "./test/remote-sign-up-spy";
+import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
 
-import faker from "@faker-js/faker";
+type SutTypes = {
+  remoteSignUpSpy: RemoteSignUpSpy;
+  sut: SignUpController;
+};
+
+const makeSut = (): SutTypes => {
+  const remoteSignUpSpy = new RemoteSignUpSpy();
+  const sut = new SignUpController(remoteSignUpSpy);
+
+  return {
+    remoteSignUpSpy,
+    sut,
+  };
+};
 
 describe("Sign Up controller", () => {
   it("Should call RemoteSignUp with correct values", async () => {
-    const remoteSignUpSpy = new RemoteSignUpSpy();
-    const sut = new SignUpController(remoteSignUpSpy);
+    const { sut, remoteSignUpSpy } = makeSut();
 
-    const request = {
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    };
+    const request = mockSignUpParams();
 
     await sut.handle(request);
 
@@ -24,14 +33,9 @@ describe("Sign Up controller", () => {
   });
 
   it("Should return 201 with correct body if signed up correctly", async () => {
-    const remoteSignUpSpy = new RemoteSignUpSpy();
-    const sut = new SignUpController(remoteSignUpSpy);
+    const { sut } = makeSut();
 
-    const request = {
-      name: "name",
-      email: "name@email.com",
-      password: faker.internet.password(),
-    };
+    const request = mockSignUpParams("name", "name@email.com");
 
     const httpResponse = await sut.handle(request);
 
