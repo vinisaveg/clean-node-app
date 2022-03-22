@@ -23,6 +23,7 @@ describe("Sign Up controller", () => {
 
     const request = mockSignUpParams();
 
+    remoteSignUpSpy.result = true;
     await sut.handle(request);
 
     expect(remoteSignUpSpy.signUpParams).toEqual({
@@ -33,15 +34,30 @@ describe("Sign Up controller", () => {
   });
 
   it("Should return 201 with correct body if signed up correctly", async () => {
-    const { sut } = makeSut();
+    const { sut, remoteSignUpSpy } = makeSut();
 
     const request = mockSignUpParams("name", "name@email.com");
 
+    remoteSignUpSpy.result = true;
     const httpResponse = await sut.handle(request);
 
     expect(httpResponse.statusCode).toBe(201);
     expect(httpResponse.body).toHaveProperty("result", true);
     expect(httpResponse.body).toHaveProperty("name", request.name);
     expect(httpResponse.body).toHaveProperty("accessToken");
+  });
+
+  it("Should return 403 if e-mail is taken", async () => {
+    const { sut, remoteSignUpSpy } = makeSut();
+
+    const request = mockSignUpParams();
+
+    remoteSignUpSpy.result = false;
+    const httpResponse = await sut.handle(request);
+
+    expect(httpResponse.statusCode).toBe(403);
+    expect(httpResponse.body).toEqual(
+      new Error("This e-mail is already taken.")
+    );
   });
 });
