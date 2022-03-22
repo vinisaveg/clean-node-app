@@ -8,8 +8,12 @@ export class SignUpController
   constructor(private readonly remoteSignUp: SignUp) {}
 
   async handle(request: SignUpParams): Promise<HttpResponse<SignUpResult>> {
-    const result = await this.remoteSignUp.execute(request);
+    const signUpResult = await this.remoteSignUp.execute(request);
 
-    return Promise.resolve({ statusCode: 201, body: result });
+    if (!signUpResult.result) {
+      throw new Error();
+    }
+
+    return { statusCode: 201, body: signUpResult };
   }
 }
