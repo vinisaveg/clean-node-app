@@ -12,4 +12,13 @@ describe("Missing Field validator", () => {
 
     expect(error).toEqual(new MissingFieldError(field));
   });
+
+  it("Should return null if validation succeeds", () => {
+    const field = faker.database.column();
+    const sut = new MissingFieldValidator(field);
+
+    const error = sut.validate({ [field]: faker.random.word() });
+
+    expect(error).toBe(null);
+  });
 });
