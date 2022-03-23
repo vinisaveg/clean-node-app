@@ -17,4 +17,17 @@ describe("Invalid Email validator", () => {
 
     expect(error).toEqual(new InvalidFieldError("email"));
   });
+
+  it("Should return null if e-mail is valid", async () => {
+    const emailValidatorSpy = new EmailValidatorSpy();
+    const sut = new InvalidEmailValidator("email", emailValidatorSpy);
+
+    const validEmail = faker.internet.email();
+
+    emailValidatorSpy.result = true;
+
+    const error = sut.validate({ email: validEmail });
+
+    expect(error).toBe(null);
+  });
 });
