@@ -7,6 +7,8 @@ import { SignUpParams } from "@/domain/use-cases/sign-up";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
 import { ValidationSpy } from "./test/validation-spy";
 
+import faker from "@faker-js/faker";
+
 type SutTypes = {
   remoteSignUpSpy: RemoteSignUpSpy;
   validationSpy: ValidationSpy;
@@ -60,12 +62,12 @@ describe("Sign Up controller", () => {
 
     const request = mockSignUpParams();
 
-    validationSpy.error = new MissingFieldError("password");
+    validationSpy.error = new MissingFieldError(faker.database.column());
 
     const httpResponse = await sut.handle(request as SignUpParams);
 
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingFieldError("password"));
+    expect(httpResponse.body).toEqual(validationSpy.error);
   });
 
   it("Should return 403 if e-mail is taken", async () => {
