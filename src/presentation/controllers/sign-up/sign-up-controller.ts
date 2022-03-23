@@ -8,15 +8,22 @@ export class SignUpController
   constructor(private readonly remoteSignUp: SignUp) {}
 
   async handle(request: SignUpParams): Promise<HttpResponse<SignUpResult>> {
-    const signUpResult = await this.remoteSignUp.execute(request);
+    try {
+      const signUpResult = await this.remoteSignUp.execute(request);
 
-    if (!signUpResult.result) {
+      if (!signUpResult.result) {
+        return {
+          statusCode: 403,
+          body: new Error("This e-mail is already taken."),
+        };
+      }
+
+      return { statusCode: 201, body: signUpResult };
+    } catch (error) {
       return {
-        statusCode: 403,
-        body: new Error("This e-mail is already taken."),
+        statusCode: 500,
+        body: new Error("Server Error."),
       };
     }
-
-    return { statusCode: 201, body: signUpResult };
   }
 }
