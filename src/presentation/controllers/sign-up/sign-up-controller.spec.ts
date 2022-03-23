@@ -3,18 +3,24 @@ import { RemoteSignUpSpy } from "./test/remote-sign-up-spy";
 import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
 import { EmailTakenError } from "@/presentation/errors/email-taken-error";
 import { ServerError } from "@/presentation/errors/server-error";
+import { SignUpParams } from "@/domain/use-cases/sign-up";
+import { MissingFieldError } from "@/presentation/errors/missing-field-error";
+import { ValidationSpy } from "./test/validation-spy";
 
 type SutTypes = {
   remoteSignUpSpy: RemoteSignUpSpy;
+  validationSpy: ValidationSpy;
   sut: SignUpController;
 };
 
 const makeSut = (): SutTypes => {
   const remoteSignUpSpy = new RemoteSignUpSpy();
-  const sut = new SignUpController(remoteSignUpSpy);
+  const validationSpy = new ValidationSpy();
+  const sut = new SignUpController(remoteSignUpSpy, validationSpy);
 
   return {
     remoteSignUpSpy,
+    validationSpy,
     sut,
   };
 };
@@ -47,6 +53,19 @@ describe("Sign Up controller", () => {
     expect(httpResponse.body).toHaveProperty("result", true);
     expect(httpResponse.body).toHaveProperty("name", request.name);
     expect(httpResponse.body).toHaveProperty("accessToken");
+  });
+
+  it("Should return 400 if request is invalid", async () => {
+    const { sut, validationSpy } = makeSut();
+
+    const request = mockSignUpParams();
+
+    validationSpy.error = new MissingFieldError("password");
+
+    const httpResponse = await sut.handle(request as SignUpParams);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingFieldError("password"));
   });
 
   it("Should return 403 if e-mail is taken", async () => {
