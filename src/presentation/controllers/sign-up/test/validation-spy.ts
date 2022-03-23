@@ -2,9 +2,9 @@ import { Validation } from "@/validation/protocols/validation";
 
 export class ValidationSpy implements Validation {
   error: Error;
-  input: any;
+  input: object;
 
-  validate(input: any): Error | null {
+  validate(input: object): Error | null {
     this.input = input;
 
     if (this.error) {
