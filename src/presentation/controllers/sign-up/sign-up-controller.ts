@@ -2,9 +2,13 @@ import { SignUp, SignUpParams, SignUpResult } from "@/domain/use-cases/sign-up";
 import { Controller } from "@/presentation/protocols/controller";
 import { HttpResponse } from "@/presentation/protocols/http";
 import { EmailTakenError } from "@/presentation/errors/email-taken-error";
-import { ServerError } from "@/presentation/errors/server-error";
 import { Validation } from "@/validation/protocols/validation";
-import { MissingFieldError } from "@/presentation/errors/missing-field-error";
+import {
+  badRequest,
+  forbidden,
+  serverError,
+  created,
+} from "@/presentation/helpers/http-helper";
 
 export class SignUpController
   implements Controller<SignUpParams, SignUpResult>
@@ -19,24 +23,18 @@ export class SignUpController
       const error = this.validaton.validate(request);
 
       if (error) {
-        return { statusCode: 400, body: error };
+        return badRequest(error);
       }
 
       const signUpResult = await this.remoteSignUp.execute(request);
 
       if (!signUpResult.result) {
-        return {
-          statusCode: 403,
-          body: new EmailTakenError(),
-        };
+        return forbidden(new EmailTakenError());
       }
 
-      return { statusCode: 201, body: signUpResult };
+      return created(signUpResult);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new ServerError(error as string),
-      };
+      return serverError(error as Error);
     }
   }
 }
