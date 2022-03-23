@@ -1,6 +1,8 @@
 import { SignUpController } from "./sign-up-controller";
 import { RemoteSignUpSpy } from "./test/remote-sign-up-spy";
 import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
+import { EmailTakenError } from "@/presentation/errors/email-taken-error";
+import { ServerError } from "@/presentation/errors/server-error";
 
 type SutTypes = {
   remoteSignUpSpy: RemoteSignUpSpy;
@@ -56,22 +58,22 @@ describe("Sign Up controller", () => {
     const httpResponse = await sut.handle(request);
 
     expect(httpResponse.statusCode).toBe(403);
-    expect(httpResponse.body).toEqual(
-      new Error("This e-mail is already taken.")
-    );
+    expect(httpResponse.body).toEqual(new EmailTakenError());
   });
 
   it("Should return 500 if RemoteSignUp throws", async () => {
     const { sut, remoteSignUpSpy } = makeSut();
 
     jest.spyOn(remoteSignUpSpy, "execute").mockImplementationOnce(() => {
-      throw new Error("Server Error.");
+      throw new ServerError("Internal server error.");
     });
 
     const request = mockSignUpParams();
     const httpResponse = await sut.handle(request);
 
     expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new Error("Server Error."));
+    expect(httpResponse.body).toEqual(
+      new ServerError("Internal server error.")
+    );
   });
 });

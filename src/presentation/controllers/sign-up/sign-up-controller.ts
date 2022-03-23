@@ -1,6 +1,8 @@
 import { SignUp, SignUpParams, SignUpResult } from "@/domain/use-cases/sign-up";
 import { Controller } from "@/presentation/protocols/controller";
 import { HttpResponse } from "@/presentation/protocols/http";
+import { EmailTakenError } from "@/presentation/errors/email-taken-error";
+import { ServerError } from "@/presentation/errors/server-error";
 
 export class SignUpController
   implements Controller<SignUpParams, SignUpResult>
@@ -14,7 +16,7 @@ export class SignUpController
       if (!signUpResult.result) {
         return {
           statusCode: 403,
-          body: new Error("This e-mail is already taken."),
+          body: new EmailTakenError(),
         };
       }
 
@@ -22,7 +24,7 @@ export class SignUpController
     } catch (error) {
       return {
         statusCode: 500,
-        body: new Error("Server Error."),
+        body: new ServerError(error as string),
       };
     }
   }
