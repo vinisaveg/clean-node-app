@@ -60,4 +60,18 @@ describe("Sign Up controller", () => {
       new Error("This e-mail is already taken.")
     );
   });
+
+  it("Should return 500 if RemoteSignUp throws", async () => {
+    const { sut, remoteSignUpSpy } = makeSut();
+
+    jest.spyOn(remoteSignUpSpy, "execute").mockImplementationOnce(() => {
+      throw new Error("Server Error.");
+    });
+
+    const request = mockSignUpParams();
+    const httpResponse = await sut.handle(request);
+
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new Error("Server Error."));
+  });
 });
