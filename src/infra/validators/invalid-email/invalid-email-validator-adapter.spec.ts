@@ -25,4 +25,14 @@ describe("Invalid Email Validator adapter", () => {
 
     expect(result).toBe(true);
   });
+
+  it("Should return false if e-mail is invalid", () => {
+    const sut = new InvalidEmailValidatorAdapter();
+
+    const invalidEmail = faker.random.word();
+
+    const result = sut.isValid(invalidEmail);
+
+    expect(result).toBe(false);
+  });
 });
