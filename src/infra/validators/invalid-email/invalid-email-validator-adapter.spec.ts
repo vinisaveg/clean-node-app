@@ -3,13 +3,26 @@ import { InvalidEmailValidatorAdapter } from "@/infra/validators/invalid-email/i
 import faker from "@faker-js/faker";
 import validator from "validator";
 
+type SutTypes = {
+  sut: InvalidEmailValidatorAdapter;
+  email: string;
+};
+
+const makeSut = (isEmailValid: boolean): SutTypes => {
+  const sut = new InvalidEmailValidatorAdapter();
+  const email = isEmailValid ? faker.internet.email() : faker.random.word();
+
+  return {
+    sut,
+    email,
+  };
+};
+
 describe("Invalid Email Validator adapter", () => {
   it("Should call InvalidEmailValidator with correct value", () => {
-    const sut = new InvalidEmailValidatorAdapter();
+    const { sut, email } = makeSut(true);
 
     const isEmailSpy = jest.spyOn(validator, "isEmail");
-
-    const email = faker.internet.email();
 
     sut.isValid(email);
 
@@ -17,9 +30,7 @@ describe("Invalid Email Validator adapter", () => {
   });
 
   it("Should return true if e-mail is valid", () => {
-    const sut = new InvalidEmailValidatorAdapter();
-
-    const email = faker.internet.email();
+    const { sut, email } = makeSut(true);
 
     const result = sut.isValid(email);
 
@@ -27,11 +38,9 @@ describe("Invalid Email Validator adapter", () => {
   });
 
   it("Should return false if e-mail is invalid", () => {
-    const sut = new InvalidEmailValidatorAdapter();
+    const { sut, email } = makeSut(false);
 
-    const invalidEmail = faker.random.word();
-
-    const result = sut.isValid(invalidEmail);
+    const result = sut.isValid(email);
 
     expect(result).toBe(false);
   });
