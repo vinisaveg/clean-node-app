@@ -34,4 +34,21 @@ describe("Composite validation", () => {
 
     expect(error).toEqual(validationSpies[1].error);
   });
+
+  it("Should return first error when more errors occur", () => {
+    const field = faker.database.column();
+    const validationSpies: Array<ValidationSpy> = [
+      new ValidationSpy(),
+      new ValidationSpy(),
+    ];
+
+    const sut = new ValidationComposite(validationSpies);
+
+    validationSpies[0].error = new MissingFieldError(field);
+    validationSpies[1].error = new Error("Some other error");
+
+    const error = sut.validate({ [field]: faker.random.word() });
+
+    expect(error).toEqual(validationSpies[0].error);
+  });
 });
