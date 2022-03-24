@@ -9,6 +9,8 @@ on:
 
 jobs:
   check:
+    name: Check ${{github_sha::8}}
+
     runs-on: ubuntu-latest
 
     strategy:
