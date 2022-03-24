@@ -15,4 +15,14 @@ describe("Invalid Email Validator adapter", () => {
 
     expect(isEmailSpy).toBeCalledWith(email);
   });
+
+  it("Should return true if e-mail is valid", () => {
+    const sut = new InvalidEmailValidatorAdapter();
+
+    const email = faker.internet.email();
+
+    const result = sut.isValid(email);
+
+    expect(result).toBe(true);
+  });
 });
