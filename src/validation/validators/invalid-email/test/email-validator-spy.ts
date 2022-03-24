@@ -4,7 +4,7 @@ export class EmailValidatorSpy implements EmailValidator {
   result: boolean;
   email: string;
 
-  isValid(email: any): boolean {
+  isValid(email: string): boolean {
     this.email = email;
     return this.result;
   }
