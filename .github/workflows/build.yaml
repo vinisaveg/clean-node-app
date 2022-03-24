@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build $(git rev-parse --short ${{ github.sha }})
+    name: Build ${github_sha::8}
 
     runs-on: ubuntu-latest
 
