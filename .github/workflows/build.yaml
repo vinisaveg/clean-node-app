@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    name: Build $(git rev-parse --short ${{ github.sha }})
+
     runs-on: ubuntu-latest
 
     strategy:
