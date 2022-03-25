@@ -6,9 +6,9 @@
   "author": "vinisaveg",
   "license": "MIT",
   "scripts": {
-    "build": "rm -r build & tsc",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "start": "node build/src/index.js",
+    "build": "rm -r build & tsc -p tsconfig.build.json",
+    "dev": "ts-node-dev --respawn --transpile-only src/main/index.ts",
+    "start": "node build/main/index.js",
     "test": "jest --runInBand --no-cache",
     "up": "docker-compose -f docker-compose.yaml up -d",
     "down": "docker-compose -f docker-compose.yaml down",
@@ -43,6 +43,6 @@
     "validator": "^13.7.0"
   },
   "_moduleAliases": {
-    "@": "build/src"
+    "@": "build"
   }
 }
