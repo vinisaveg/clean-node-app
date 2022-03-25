@@ -2,9 +2,21 @@ import { InvalidPasswordValidatorAdapter } from "@/infra/validators/invalid-pass
 
 import faker from "@faker-js/faker";
 
+type SutTypes = {
+  sut: InvalidPasswordValidatorAdapter;
+};
+
+const makeSut = (): SutTypes => {
+  const sut = new InvalidPasswordValidatorAdapter();
+
+  return {
+    sut,
+  };
+};
+
 describe("Invalid Password Validator adapter", () => {
   it("Should return true if password is valid", () => {
-    const sut = new InvalidPasswordValidatorAdapter();
+    const { sut } = makeSut();
 
     const strongPassword = faker.internet.password(
       16,
@@ -19,7 +31,7 @@ describe("Invalid Password Validator adapter", () => {
   });
 
   it("Should return false if password is invalid", () => {
-    const sut = new InvalidPasswordValidatorAdapter();
+    const { sut } = makeSut();
 
     const weakPassword = faker.random.word();
 
