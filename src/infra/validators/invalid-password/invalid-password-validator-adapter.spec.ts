@@ -17,4 +17,14 @@ describe("Invalid Password Validator adapter", () => {
 
     expect(result).toBe(true);
   });
+
+  it("Should return false if password is invalid", () => {
+    const sut = new InvalidPasswordValidatorAdapter();
+
+    const weakPassword = faker.random.word();
+
+    const result = sut.isValid(weakPassword);
+
+    expect(result).toBe(false);
+  });
 });
