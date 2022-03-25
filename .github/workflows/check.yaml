@@ -9,7 +9,7 @@ on:
 
 jobs:
   check:
-    name: Check ${{github_sha::8}}
+    name: Check ${{github_sha}}
 
     runs-on: ubuntu-latest
 

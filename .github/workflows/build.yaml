@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build ${{github_sha::8}}
+    name: Build ${{github_sha}}
 
     runs-on: ubuntu-latest
 
