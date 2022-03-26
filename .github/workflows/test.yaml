@@ -39,6 +39,8 @@ jobs:
         run: |
           touch .env
           echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo JWT_ALGORITHM=${{ secrets.JWT_ALGORITHM }} >> .env
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
