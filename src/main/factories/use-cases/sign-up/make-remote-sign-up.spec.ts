@@ -7,7 +7,7 @@ import { makeRemoteSignUp } from "@/main/factories/use-cases/sign-up/make-remote
 
 describe("Remote Sign Up factory", () => {
   it("Should return a RemoteSignUp with correct dependencies", () => {
-    const factoryRemoteSignUp: RemoteSignUp = makeRemoteSignUp();
+    const sut = makeRemoteSignUp();
 
     const mongoCheckEmailRepository = new MongoCheckEmailRepository();
     const hasher = new BcryptHasher(12);
@@ -21,6 +21,6 @@ describe("Remote Sign Up factory", () => {
       encrypter
     );
 
-    expect(factoryRemoteSignUp).toEqual(remoteSignUp);
+    expect(sut).toEqual(remoteSignUp);
   });
 });
