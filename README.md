@@ -26,6 +26,9 @@ Create a .env file with the following environment vars:
     MONGODB_URI=mongodb://USERNAME:PASSWORD@localhost:27017/DBNAME?authSource=admin
     MONGODB_TEST_URI=mongodb://USERNAME:PASSWORD@localhost:27017/DBNAME?authSource=admin
 
+    JWT_SECRET=
+    JWT_ALGORITHM=
+
 Run the database containers:
 
     yarn up
