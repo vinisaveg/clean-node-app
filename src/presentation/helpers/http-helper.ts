@@ -3,21 +3,36 @@ import { HttpResponse } from "@/presentation/protocols/http";
 export function badRequest<T>(error: Error): HttpResponse<T> {
   return {
     statusCode: 400,
-    body: error,
+    body: {
+      error: {
+        name: error.name,
+        message: error.message,
+      },
+    },
   };
 }
 
 export function forbidden<T>(error: Error): HttpResponse<T> {
   return {
     statusCode: 403,
-    body: error,
+    body: {
+      error: {
+        name: error.name,
+        message: error.message,
+      },
+    },
   };
 }
 
 export function serverError<T>(error: Error): HttpResponse<T> {
   return {
     statusCode: 500,
-    body: error,
+    body: {
+      error: {
+        name: error.name,
+        message: error.message,
+      },
+    },
   };
 }
 
