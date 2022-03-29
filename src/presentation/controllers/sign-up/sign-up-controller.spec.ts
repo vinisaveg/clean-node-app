@@ -67,7 +67,12 @@ describe("Sign Up controller", () => {
     const httpResponse = await sut.handle(request as SignUpParams);
 
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(validationSpy.error);
+    expect(httpResponse.body).toEqual({
+      error: {
+        name: validationSpy.error.name,
+        message: validationSpy.error.message,
+      },
+    });
   });
 
   it("Should return 403 if e-mail is taken", async () => {
@@ -76,10 +81,16 @@ describe("Sign Up controller", () => {
     const request = mockSignUpParams();
 
     remoteSignUpSpy.result = false;
+
     const httpResponse = await sut.handle(request);
 
     expect(httpResponse.statusCode).toBe(403);
-    expect(httpResponse.body).toEqual(new EmailTakenError());
+    expect(httpResponse.body).toEqual({
+      error: {
+        name: "EmailTakenError",
+        message: "The given e-mail is already taken.",
+      },
+    });
   });
 
   it("Should return 500 if RemoteSignUp throws", async () => {
@@ -93,8 +104,11 @@ describe("Sign Up controller", () => {
     const httpResponse = await sut.handle(request);
 
     expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(
-      new ServerError("Internal server error.")
-    );
+    expect(httpResponse.body).toEqual({
+      error: {
+        name: "ServerError",
+        message: "Internal server error",
+      },
+    });
   });
 });
