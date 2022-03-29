@@ -1,7 +1,6 @@
 import { SignUpController } from "./sign-up-controller";
 import { RemoteSignUpSpy } from "./test/remote-sign-up-spy";
 import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
-import { EmailTakenError } from "@/presentation/errors/email-taken-error";
 import { ServerError } from "@/presentation/errors/server-error";
 import { SignUpParams } from "@/domain/use-cases/sign-up";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
