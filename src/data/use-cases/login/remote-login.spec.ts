@@ -1,6 +1,6 @@
 import { FindByEmailRepositorySpy } from "./test/find-by-email-repository-spy";
 import { RemoteLogin } from "./remote-login";
-import faker from "@faker-js/faker";
+import { mockLoginParams } from "../../../../test/mocks/login/mock-login";
 
 type SutTypes = {
   findByEmailRepositorySpy: FindByEmailRepositorySpy;
@@ -18,17 +18,16 @@ const makeSut = (): SutTypes => {
 };
 
 describe("Remote Login use-case", () => {
-  const email = faker.internet.email();
-  const password = faker.internet.password();
-
   it("Should call findByEmailRepository with correct e-mail value", async () => {
     const { findByEmailRepositorySpy, sut } = makeSut();
 
     findByEmailRepositorySpy.result = true;
 
-    await sut.execute({ email, password });
+    const loginParams = mockLoginParams();
 
-    expect(findByEmailRepositorySpy.email).toBe(email);
+    await sut.execute(loginParams);
+
+    expect(findByEmailRepositorySpy.email).toBe(loginParams.email);
   });
 
   it("Should return false if findByEmailRepository returns false", async () => {
@@ -36,7 +35,9 @@ describe("Remote Login use-case", () => {
 
     findByEmailRepositorySpy.result = false;
 
-    const loginResult = await sut.execute({ email, password });
+    const loginParams = mockLoginParams();
+
+    const loginResult = await sut.execute(loginParams);
 
     expect(loginResult.result).toBe(false);
   });
@@ -46,7 +47,9 @@ describe("Remote Login use-case", () => {
 
     findByEmailRepositorySpy.result = true;
 
-    const loginResult = await sut.execute({ email, password });
+    const loginParams = mockLoginParams();
+
+    const loginResult = await sut.execute(loginParams);
 
     expect(loginResult.result).toBe(true);
   });
