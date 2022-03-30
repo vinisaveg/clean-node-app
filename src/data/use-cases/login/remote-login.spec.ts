@@ -29,4 +29,18 @@ describe("Remote Login use-case", () => {
 
     expect(loginResult.result).toBe(false);
   });
+
+  it("Should return true if findByEmailRepository returns true", async () => {
+    const findByEmailRepositorySpy = new FindByEmailRepositorySpy();
+    const sut = new RemoteLogin(findByEmailRepositorySpy);
+
+    const email = "email@example.com";
+    const password = "1234567890";
+
+    findByEmailRepositorySpy.result = true;
+
+    const loginResult = await sut.execute({ email, password });
+
+    expect(loginResult.result).toBe(true);
+  });
 });
