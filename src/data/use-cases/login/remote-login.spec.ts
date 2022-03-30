@@ -53,4 +53,20 @@ describe("Remote Login use-case", () => {
 
     expect(loginResult.result).toBe(true);
   });
+
+  it("Should throw if findByEmailRepository throws", async () => {
+    const { findByEmailRepositorySpy, sut } = makeSut();
+
+    jest
+      .spyOn(findByEmailRepositorySpy, "execute")
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    findByEmailRepositorySpy.result = false;
+
+    const promise = sut.execute(mockLoginParams());
+
+    expect(promise).rejects.toThrow();
+  });
 });
