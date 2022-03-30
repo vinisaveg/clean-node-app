@@ -51,5 +51,15 @@ describe("Authentication routes", () => {
 
       expect(response.status).toBe(400);
     });
+
+    it("Should return 403 if the request is forbidden", async () => {
+      const response = await request(app).post("/api/signup").send({
+        name: faker.name.findName(),
+        email: "vinicius@test.com",
+        password: strongPassword,
+      });
+
+      expect(response.status).toBe(403);
+    });
   });
 });
