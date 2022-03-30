@@ -6,7 +6,6 @@ export type User = {
   password: string;
   country: string;
   role: Role;
-  ranking: Ranking;
 };
 
 type Role = {
@@ -20,10 +19,4 @@ type Permission = {
   id: string;
   name: string;
   description: string;
-};
-
-type Ranking = {
-  id: string;
-  level: number;
-  exp: number;
 };
