@@ -5,6 +5,7 @@ import { ValidationSpy } from "@/../test/spies/authentication/validation-spy";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
 
 import faker from "@faker-js/faker";
+import { InvalidCredentialsError } from "@/presentation/errors/invalid-credentials-error";
 
 type SutTypes = {
   remoteLoginSpy: RemoteLoginSpy;
@@ -65,6 +66,24 @@ describe("Login controller", () => {
       error: {
         name: validationSpy.error.name,
         message: validationSpy.error.message,
+      },
+    });
+  });
+
+  it("Should return 403 if credentials are invalid", async () => {
+    const { remoteLoginSpy, sut } = makeSut();
+
+    const request = mockLoginParams();
+
+    remoteLoginSpy.result = false;
+
+    const httpResponse = await sut.handle(request);
+
+    expect(httpResponse.statusCode).toBe(403);
+    expect(httpResponse.body).toEqual({
+      error: {
+        name: "InvalidCredentialsError",
+        message: "Invalid credentials provided.",
       },
     });
   });
