@@ -42,3 +42,10 @@ export function created<T>(data: T): HttpResponse<T> {
     body: data,
   };
 }
+
+export function ok<T>(data: T): HttpResponse<T> {
+  return {
+    statusCode: 200,
+    body: data,
+  };
+}
