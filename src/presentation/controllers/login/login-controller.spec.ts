@@ -2,10 +2,24 @@ import { mockLoginParams } from "@/../test/mocks/login/mock-login";
 import { RemoteLoginSpy } from "@/presentation/controllers/login/test/remote-login-spy";
 import { LoginController } from "@/presentation/controllers/login/login-controller";
 
+type SutTypes = {
+  remoteLoginSpy: RemoteLoginSpy;
+  sut: LoginController;
+};
+
+const makeSut = (): SutTypes => {
+  const remoteLoginSpy = new RemoteLoginSpy();
+  const sut = new LoginController(remoteLoginSpy);
+
+  return {
+    remoteLoginSpy,
+    sut,
+  };
+};
+
 describe("Login controller", () => {
   it("Should call RemoteLogin with correct values", async () => {
-    const remoteLoginSpy = new RemoteLoginSpy();
-    const sut = new LoginController(remoteLoginSpy);
+    const { remoteLoginSpy, sut } = makeSut();
 
     const request = mockLoginParams();
 
@@ -16,8 +30,7 @@ describe("Login controller", () => {
   });
 
   it("Should return 200 with correct body if logged in correctly", async () => {
-    const remoteLoginSpy = new RemoteLoginSpy();
-    const sut = new LoginController(remoteLoginSpy);
+    const { remoteLoginSpy, sut } = makeSut();
 
     const request = mockLoginParams();
 
