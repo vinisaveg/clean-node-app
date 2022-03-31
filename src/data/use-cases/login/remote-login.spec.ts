@@ -122,4 +122,20 @@ describe("Remote Login use-case", () => {
 
     expect(encrypterSpy.text).toBe(findByEmailRepositorySpy.id);
   });
+
+  it("Should throw if Encrypter throws", async () => {
+    const { findByEmailRepositorySpy, hashComparerSpy, encrypterSpy, sut } =
+      makeSut();
+
+    jest.spyOn(encrypterSpy, "encrypt").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = true;
+
+    const promise = sut.execute(mockLoginParams());
+
+    expect(promise).rejects.toThrow();
+  });
 });
