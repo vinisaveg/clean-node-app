@@ -1,10 +1,10 @@
-import { SignUpController } from "./sign-up-controller";
-import { RemoteSignUpSpy } from "./test/remote-sign-up-spy";
+import { SignUpController } from "@/presentation/controllers/sign-up/sign-up-controller";
+import { RemoteSignUpSpy } from "@/presentation/controllers/sign-up/test/remote-sign-up-spy";
 import { mockSignUpParams } from "@/../test/mocks/sign-up/mock-sign-up";
 import { ServerError } from "@/presentation/errors/server-error";
 import { SignUpParams } from "@/domain/use-cases/sign-up";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
-import { ValidationSpy } from "./test/validation-spy";
+import { ValidationSpy } from "@/../test/spies/authentication/validation-spy";
 
 import faker from "@faker-js/faker";
 

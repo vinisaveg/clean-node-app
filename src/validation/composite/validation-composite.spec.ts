@@ -1,4 +1,4 @@
-import { ValidationSpy } from "@/presentation/controllers/sign-up/test/validation-spy";
+import { ValidationSpy } from "@/../test/spies/authentication/validation-spy";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
 import { ValidationComposite } from "@/validation/composite/validation-composite";
 
