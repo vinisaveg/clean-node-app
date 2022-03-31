@@ -70,5 +70,19 @@ describe("BcrypAdapter implementation", () => {
 
       expect(result).toBe(true);
     });
+
+    it("Should return false if compare fails", async () => {
+      const { sut } = makeSut();
+      const text = faker.random.alphaNumeric(10);
+      const hashedText = faker.random.alphaNumeric(30);
+
+      jest
+        .spyOn(sut, "compare")
+        .mockImplementationOnce(() => Promise.resolve(false));
+
+      const result = await sut.compare(text, hashedText);
+
+      expect(result).toBe(false);
+    });
   });
 });
