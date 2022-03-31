@@ -2,6 +2,7 @@ import {
   FindByEmailRepository,
   FindByEmailResult,
 } from "@/data/protocols/user/find-by-email-repository";
+import faker from "@faker-js/faker";
 
 export class FindByEmailRepositorySpy implements FindByEmailRepository {
   result: boolean;
@@ -12,6 +13,12 @@ export class FindByEmailRepositorySpy implements FindByEmailRepository {
 
     return Promise.resolve({
       result: this.result,
+      user: {
+        id: faker.datatype.uuid(),
+        email: faker.internet.email(),
+        name: faker.name.findName(),
+        password: faker.internet.password(),
+      },
     });
   }
 }

@@ -1,18 +1,22 @@
 import { FindByEmailRepositorySpy } from "./test/find-by-email-repository-spy";
 import { RemoteLogin } from "./remote-login";
 import { mockLoginParams } from "../../../../test/mocks/login/mock-login";
+import { HashComparerSpy } from "./test/hash-comparer-spy";
 
 type SutTypes = {
   findByEmailRepositorySpy: FindByEmailRepositorySpy;
+  hashComparerSpy: HashComparerSpy;
   sut: RemoteLogin;
 };
 
 const makeSut = (): SutTypes => {
   const findByEmailRepositorySpy = new FindByEmailRepositorySpy();
-  const sut = new RemoteLogin(findByEmailRepositorySpy);
+  const hashComparerSpy = new HashComparerSpy();
+  const sut = new RemoteLogin(findByEmailRepositorySpy, hashComparerSpy);
 
   return {
     findByEmailRepositorySpy,
+    hashComparerSpy,
     sut,
   };
 };
@@ -43,9 +47,10 @@ describe("Remote Login use-case", () => {
   });
 
   it("Should return true if findByEmailRepository returns true", async () => {
-    const { findByEmailRepositorySpy, sut } = makeSut();
+    const { findByEmailRepositorySpy, hashComparerSpy, sut } = makeSut();
 
     findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = true;
 
     const loginParams = mockLoginParams();
 
@@ -68,5 +73,18 @@ describe("Remote Login use-case", () => {
     const promise = sut.execute(mockLoginParams());
 
     expect(promise).rejects.toThrow();
+  });
+
+  it("Should call Hasher with correct value", async () => {
+    const { findByEmailRepositorySpy, hashComparerSpy, sut } = makeSut();
+
+    findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = true;
+
+    const loginParams = mockLoginParams();
+
+    await sut.execute(loginParams);
+
+    expect(hashComparerSpy.text).toBe(loginParams.password);
   });
 });
