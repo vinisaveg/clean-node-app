@@ -3,9 +3,9 @@ import { RemoteLoginSpy } from "@/presentation/controllers/login/test/remote-log
 import { LoginController } from "@/presentation/controllers/login/login-controller";
 import { ValidationSpy } from "@/../test/spies/authentication/validation-spy";
 import { MissingFieldError } from "@/presentation/errors/missing-field-error";
+import { ServerError } from "@/presentation/errors/server-error";
 
 import faker from "@faker-js/faker";
-import { InvalidCredentialsError } from "@/presentation/errors/invalid-credentials-error";
 
 type SutTypes = {
   remoteLoginSpy: RemoteLoginSpy;
@@ -84,6 +84,26 @@ describe("Login controller", () => {
       error: {
         name: "InvalidCredentialsError",
         message: "Invalid credentials provided.",
+      },
+    });
+  });
+
+  it("Should return 500 if RemoteLogin throws", async () => {
+    const { remoteLoginSpy, sut } = makeSut();
+
+    const request = mockLoginParams();
+
+    jest.spyOn(remoteLoginSpy, "execute").mockImplementationOnce(() => {
+      throw new ServerError("Internal server error.");
+    });
+
+    const httpResponse = await sut.handle(request);
+
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual({
+      error: {
+        name: "ServerError",
+        message: "Internal server error",
       },
     });
   });
