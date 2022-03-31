@@ -26,6 +26,9 @@ const makeSut = (salt = 10): SutTypes => {
 };
 
 describe("BcrypAdapter implementation", () => {
+  const text = faker.random.alphaNumeric(10);
+  const hashedText = faker.random.alphaNumeric(30);
+
   describe("hash", () => {
     it("Should call hash with correct text value", async () => {
       const { sut } = makeSut();
@@ -51,8 +54,6 @@ describe("BcrypAdapter implementation", () => {
   describe("compare", () => {
     it("Should call compare with correct values", async () => {
       const { sut } = makeSut();
-      const text = faker.random.alphaNumeric(10);
-      const hashedText = faker.random.alphaNumeric(30);
 
       const bcryptAdapterSpy = jest.spyOn(sut, "compare");
 
@@ -63,8 +64,6 @@ describe("BcrypAdapter implementation", () => {
 
     it("Should return true if compare succeeds", async () => {
       const { sut } = makeSut();
-      const text = faker.random.alphaNumeric(10);
-      const hashedText = faker.random.alphaNumeric(30);
 
       const result = await sut.compare(text, hashedText);
 
@@ -73,8 +72,6 @@ describe("BcrypAdapter implementation", () => {
 
     it("Should return false if compare fails", async () => {
       const { sut } = makeSut();
-      const text = faker.random.alphaNumeric(10);
-      const hashedText = faker.random.alphaNumeric(30);
 
       jest
         .spyOn(sut, "compare")
