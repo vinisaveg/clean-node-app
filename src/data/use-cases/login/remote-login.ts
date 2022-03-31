@@ -1,11 +1,13 @@
 import { FindByEmailRepository } from "@/data/protocols/user/find-by-email-repository";
 import { Login, LoginParams, LoginResult } from "@/domain/use-cases/login";
 import { HasherComparer } from "@/data/protocols/cryptography/hash-comparer";
+import { Encrypter } from "@/data/protocols/cryptography/encrypter";
 
 export class RemoteLogin implements Login {
   constructor(
     private readonly findByEmailRepository: FindByEmailRepository,
-    private readonly hasher: HasherComparer
+    private readonly hasher: HasherComparer,
+    private readonly encrypter: Encrypter
   ) {}
 
   async execute(data: LoginParams): Promise<LoginResult> {
@@ -18,7 +20,9 @@ export class RemoteLogin implements Login {
       );
 
       if (isValid) {
-        return { result: true };
+        const accessToken = await this.encrypter.encrypt(userExists.user.id);
+
+        return { result: true, name: userExists.user.name, accessToken };
       }
     }
 
