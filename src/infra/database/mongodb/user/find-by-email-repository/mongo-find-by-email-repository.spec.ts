@@ -30,4 +30,14 @@ describe("MongoFindByEmailRepository implementation", () => {
 
     expect(userExists.result).toBe(false);
   });
+
+  it("Should return true if e-mail exists", async () => {
+    const sut = new MongoFindByEmailRepository();
+
+    const email = "test@test.com";
+
+    const userExists = await sut.execute(email);
+
+    expect(userExists.result).toBe(true);
+  });
 });
