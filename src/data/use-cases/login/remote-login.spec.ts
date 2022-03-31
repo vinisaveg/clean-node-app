@@ -87,4 +87,19 @@ describe("Remote Login use-case", () => {
 
     expect(hashComparerSpy.text).toBe(loginParams.password);
   });
+
+  it("Should throw if Hasher throws", () => {
+    const { findByEmailRepositorySpy, hashComparerSpy, sut } = makeSut();
+
+    jest.spyOn(hashComparerSpy, "compare").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = false;
+
+    const promise = sut.execute(mockLoginParams());
+
+    expect(promise).rejects.toThrow();
+  });
 });
