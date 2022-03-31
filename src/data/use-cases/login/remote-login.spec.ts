@@ -1,8 +1,8 @@
-import { FindByEmailRepositorySpy } from "./test/find-by-email-repository-spy";
-import { RemoteLogin } from "./remote-login";
-import { mockLoginParams } from "../../../../test/mocks/login/mock-login";
-import { HashComparerSpy } from "./test/hash-comparer-spy";
-import { EncrypterSpy } from "../sign-up/test/encrypter-spy";
+import { FindByEmailRepositorySpy } from "@/data/use-cases/login/test/find-by-email-repository-spy";
+import { RemoteLogin } from "@/data/use-cases/login/remote-login";
+import { mockLoginParams } from "@/../test/mocks/login/mock-login";
+import { HashComparerSpy } from "@/data/use-cases/login/test/hash-comparer-spy";
+import { EncrypterSpy } from "@/../test/spies/authentication/encrypter-spy";
 
 type SutTypes = {
   findByEmailRepositorySpy: FindByEmailRepositorySpy;
