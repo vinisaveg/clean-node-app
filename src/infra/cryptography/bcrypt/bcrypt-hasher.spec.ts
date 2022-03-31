@@ -60,5 +60,15 @@ describe("BcrypAdapter implementation", () => {
 
       expect(bcryptAdapterSpy).toBeCalledWith(text, hashedText);
     });
+
+    it("Should return true if compare succeeds", async () => {
+      const { sut } = makeSut();
+      const text = faker.random.alphaNumeric(10);
+      const hashedText = faker.random.alphaNumeric(30);
+
+      const result = await sut.compare(text, hashedText);
+
+      expect(result).toBe(true);
+    });
   });
 });
