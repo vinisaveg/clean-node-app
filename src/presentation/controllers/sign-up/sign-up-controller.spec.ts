@@ -106,7 +106,7 @@ describe("Sign Up controller", () => {
     expect(httpResponse.body).toEqual({
       error: {
         name: "ServerError",
-        message: "Internal server error",
+        message: "Internal server error.",
       },
     });
   });
