@@ -1,19 +1,23 @@
-import { BcryptHasher } from "./bcrypt-hasher";
+import { BcryptAdapter } from "@/infra/cryptography/bcrypt/bcrypt-adapter";
 import faker from "@faker-js/faker";
 
 jest.mock("bcrypt", () => ({
   async hash(): Promise<string> {
     return "hashedText";
   },
+
+  async compare(): Promise<boolean> {
+    return true;
+  },
 }));
 
 type SutTypes = {
   salt: number;
-  sut: BcryptHasher;
+  sut: BcryptAdapter;
 };
 
 const makeSut = (salt = 10): SutTypes => {
-  const sut = new BcryptHasher(salt);
+  const sut = new BcryptAdapter(salt);
 
   return {
     salt,
@@ -21,24 +25,40 @@ const makeSut = (salt = 10): SutTypes => {
   };
 };
 
-describe("BcryptHasher implementation", () => {
-  it("Should call hash with correct text value", async () => {
-    const { sut } = makeSut();
-    const text = faker.random.alphaNumeric(10);
+describe("BcrypAdapter implementation", () => {
+  describe("hash", () => {
+    it("Should call hash with correct text value", async () => {
+      const { sut } = makeSut();
+      const text = faker.random.alphaNumeric(10);
 
-    const bcryptHasherSpy = jest.spyOn(sut, "hash");
+      const bcryptAdapterSpy = jest.spyOn(sut, "hash");
 
-    await sut.hash(text);
+      await sut.hash(text);
 
-    expect(bcryptHasherSpy).toHaveBeenCalledWith(text);
+      expect(bcryptAdapterSpy).toHaveBeenCalledWith(text);
+    });
+
+    it("Should return a valid hashed text", async () => {
+      const { sut } = makeSut();
+      const text = faker.random.alphaNumeric(10);
+
+      const hashedText = await sut.hash(text);
+
+      expect(hashedText).toBe("hashedText");
+    });
   });
 
-  it("Should return a valid hashed text", async () => {
-    const { sut } = makeSut();
-    const text = faker.random.alphaNumeric(10);
+  describe("compare", () => {
+    it("Should call compare with correct values", async () => {
+      const { sut } = makeSut();
+      const text = faker.random.alphaNumeric(10);
+      const hashedText = faker.random.alphaNumeric(30);
 
-    const hashedText = await sut.hash(text);
+      const bcryptAdapterSpy = jest.spyOn(sut, "compare");
 
-    expect(hashedText).toBe("hashedText");
+      await sut.compare(text, hashedText);
+
+      expect(bcryptAdapterSpy).toBeCalledWith(text, hashedText);
+    });
   });
 });
