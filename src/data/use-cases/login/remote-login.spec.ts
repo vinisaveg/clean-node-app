@@ -138,4 +138,21 @@ describe("Remote Login use-case", () => {
 
     expect(promise).rejects.toThrow();
   });
+
+  it("Should return correct data on Login execution", async () => {
+    const { findByEmailRepositorySpy, hashComparerSpy, sut } = makeSut();
+
+    findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = true;
+
+    const loginParams = mockLoginParams();
+
+    const result = await sut.execute(loginParams);
+
+    expect(result).toEqual({
+      result: true,
+      name: findByEmailRepositorySpy.name,
+      accessToken: "accessToken",
+    });
+  });
 });
