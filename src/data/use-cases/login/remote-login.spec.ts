@@ -2,21 +2,29 @@ import { FindByEmailRepositorySpy } from "./test/find-by-email-repository-spy";
 import { RemoteLogin } from "./remote-login";
 import { mockLoginParams } from "../../../../test/mocks/login/mock-login";
 import { HashComparerSpy } from "./test/hash-comparer-spy";
+import { EncrypterSpy } from "../sign-up/test/encrypter-spy";
 
 type SutTypes = {
   findByEmailRepositorySpy: FindByEmailRepositorySpy;
   hashComparerSpy: HashComparerSpy;
+  encrypterSpy: EncrypterSpy;
   sut: RemoteLogin;
 };
 
 const makeSut = (): SutTypes => {
   const findByEmailRepositorySpy = new FindByEmailRepositorySpy();
   const hashComparerSpy = new HashComparerSpy();
-  const sut = new RemoteLogin(findByEmailRepositorySpy, hashComparerSpy);
+  const encrypterSpy = new EncrypterSpy();
+  const sut = new RemoteLogin(
+    findByEmailRepositorySpy,
+    hashComparerSpy,
+    encrypterSpy
+  );
 
   return {
     findByEmailRepositorySpy,
     hashComparerSpy,
+    encrypterSpy,
     sut,
   };
 };
@@ -101,5 +109,17 @@ describe("Remote Login use-case", () => {
     const promise = sut.execute(mockLoginParams());
 
     expect(promise).rejects.toThrow();
+  });
+
+  it("Should call Encrypter with correct value", async () => {
+    const { findByEmailRepositorySpy, hashComparerSpy, encrypterSpy, sut } =
+      makeSut();
+
+    findByEmailRepositorySpy.result = true;
+    hashComparerSpy.result = true;
+
+    await sut.execute(mockLoginParams());
+
+    expect(encrypterSpy.text).toBe(findByEmailRepositorySpy.id);
   });
 });
