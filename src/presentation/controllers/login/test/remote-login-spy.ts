@@ -1,4 +1,5 @@
 import { Login, LoginParams, LoginResult } from "@/domain/use-cases/login";
+import faker from "@faker-js/faker";
 
 export class RemoteLoginSpy implements Login {
   loginParams: LoginParams;
@@ -9,6 +10,8 @@ export class RemoteLoginSpy implements Login {
 
     return {
       result: this.result,
+      name: faker.name.findName(),
+      accessToken: faker.random.alphaNumeric(20),
     };
   }
 }
