@@ -10,7 +10,7 @@ describe("Login Validation factory", () => {
   it("Should return a Validation with correct validators", () => {
     const validators = [];
 
-    for (const field in ["email", "password"]) {
+    for (const field of ["email", "password"]) {
       validators.push(new MissingFieldValidator(field));
     }
 

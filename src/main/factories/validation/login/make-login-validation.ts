@@ -9,7 +9,7 @@ import { MissingFieldValidator } from "@/validation/validators/missing-field/mis
 export const makeLoginValidation = (): Validation => {
   const validators = [];
 
-  for (const field in ["email", "password"]) {
+  for (const field of ["email", "password"]) {
     validators.push(new MissingFieldValidator(field));
   }
 
