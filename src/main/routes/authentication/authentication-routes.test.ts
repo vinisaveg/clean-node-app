@@ -15,6 +15,8 @@ describe("Authentication routes", () => {
     /[a-zA-Z0-9!@#$%^&*]/,
     "aZ0@"
   );
+  const name = faker.name.findName();
+  const email = faker.internet.email();
 
   beforeAll(async () => {
     const serverHelper = new ServerHelper(3000);
@@ -22,6 +24,11 @@ describe("Authentication routes", () => {
     app = serverHelper.app;
 
     usersCollection = MongoHelper.getCollection("users");
+    await usersCollection.insertOne({
+      name,
+      email,
+      password: strongPassword,
+    });
   });
 
   afterAll(async () => {
@@ -60,6 +67,20 @@ describe("Authentication routes", () => {
       });
 
       expect(response.status).toBe(403);
+    });
+  });
+
+  describe("/login route", () => {
+    it("Should login a user", async () => {
+      const response = await request(app).post("/api/login").send({
+        email: "vinicius@test.com",
+        password: strongPassword,
+      });
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty("result", true);
+      expect(response.body).toHaveProperty("name", "vinicius");
+      expect(response.body).toHaveProperty("accessToken");
     });
   });
 });
