@@ -53,7 +53,14 @@ Returns a JSON SignUpResult data.
 - **Sample Call:**
 
   ```javascript
-  fetch("/api/signup")
+  fetch("/api/signup", {
+    method: "POST",
+    body: JSON.stringify({
+      name: "example",
+      email: "example@example.com",
+      password: "1234",
+    }),
+  })
     .then((response) => response.json())
     .then((data) => console.log(data));
   ```
