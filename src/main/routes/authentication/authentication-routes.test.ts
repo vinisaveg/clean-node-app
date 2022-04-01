@@ -91,5 +91,14 @@ describe("Authentication routes", () => {
 
       expect(response.status).toBe(400);
     });
+
+    it("Should return 403 if credentials are invalid", async () => {
+      const response = await request(app).post("/api/login").send({
+        email: faker.internet.email(),
+        password: strongPassword,
+      });
+
+      expect(response.status).toBe(403);
+    });
   });
 });
