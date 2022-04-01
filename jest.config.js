@@ -11,5 +11,11 @@ module.exports = {
     '@/(.*)': "<rootDir>/src/$1"
   },
   setupFilesAfterEnv: ['<rootDir>/test/jest-setup.ts'],
-  verbose: true
+  verbose: true,
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/server/**',
+    '!<rootDir>/src/main/index.ts'
+  ],
+  coverageDirectory: 'coverage',
 };
