@@ -82,5 +82,14 @@ describe("Authentication routes", () => {
       expect(response.body).toHaveProperty("name", "vinicius");
       expect(response.body).toHaveProperty("accessToken");
     });
+
+    it("Should return 400 if the request is invalid", async () => {
+      const response = await request(app).post("/api/login").send({
+        email: faker.random.word(),
+        password: strongPassword,
+      });
+
+      expect(response.status).toBe(400);
+    });
   });
 });
