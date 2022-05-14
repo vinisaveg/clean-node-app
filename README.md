@@ -1,12 +1,12 @@
-# next-unicorn-project-server
+# clean-node-app
 
-the _next-unicorn-project-server_ is the backend server for a new project I am working on.
+An API with Nodejs, Typescript, TDD, Clean Architecture, Design Patterns, SOLID and more...
 
 ## Installing :construction_worker:
 
 Clone this repo:
 
-    git clone https://github.com/vinisaveg/next-unicorn-project-server.git
+    git clone https://github.com/vinisaveg/clean-node-app.git
 
 Install dependencies:
 
